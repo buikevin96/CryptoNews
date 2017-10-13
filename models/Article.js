@@ -1,5 +1,6 @@
 // Require mongoose
 var mongoose = require("mongoose");
+var path = require("path");
 // Create Schema class
 var Schema = mongoose.Schema;
 

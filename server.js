@@ -3,6 +3,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var path = require('path');
 
 //To require our Note and Articles models
 var Note = require("./models/Note.js");
@@ -51,7 +52,7 @@ app.get("/scrape", function(req, res){
         // Load into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(html);
         // Grab every within article tag and do the following
-        $("a.title").each(function(i, element){
+        $("p.title").each(function(i, element){
 
             // Save an empty result object
             var result = {};
