@@ -45,6 +45,11 @@ db.once("open", function(){
 // Routes
 // =======
 
+// Simple welcome message
+app.get("/hello", function(req, res){
+    res.send("Welcome! Get Your Daily Crypto News Here");
+});
+
 // A GET request to scrape the echojs website
 app.get("/scrape", function(req, res){
     //Grab grab the body  of the html with request
@@ -80,6 +85,21 @@ app.get("/scrape", function(req, res){
     });
     // Tell the browser that we finished scraping the text
     res.send("Scrape Complete");
+});
+
+// This will get the articles we scraped from the mongoDB
+app.get("/articles", function(req, res){
+    // Grab every doc in the Articles array
+    Article.find({}, function(error, doc){
+        // Log any errors
+        if (error) {
+            console.log(error);
+        }
+        // Or send the doc to the browser as a json object
+        else {
+            res.json(doc);
+        }
+    });
 });
 
 app.listen(3000, function(){
