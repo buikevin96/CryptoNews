@@ -28,6 +28,15 @@ app.use(bodyParser.urlencoded({
 // Make public a static dir
 app.use(express.static("public"));
 
+// Set Handlebars
+var exphbs = require("express-handlebars");
+
+app.engine("handlebars", exphbs({
+    defaultLayout: "main",
+    partialsDir: path.join(__dirname, "/views/layouts/partials")
+}));
+app.set("view engine", "handlebars");
+
 // Database configuration with mongoose
 mongoose.connect("mongodb://localhost/crypto");
 var db = mongoose.connection;
@@ -46,8 +55,8 @@ db.once("open", function(){
 // =======
 
 // Simple welcome message
-app.get("/hello", function(req, res){
-    res.send("Welcome! Get Your Daily Crypto News Here");
+app.get("/", function(req, res){
+    res.send(index.html);
 });
 
 // A GET request to scrape the echojs website
