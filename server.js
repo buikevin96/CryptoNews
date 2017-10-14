@@ -54,9 +54,24 @@ db.once("open", function(){
 // Routes
 // =======
 
-// Simple welcome message
+// GET requests to render Handlebars pages
 app.get("/", function(req, res){
-    res.send(index.html);
+    Article.find({"saved": false}, function(error, data) {
+        var hbsObject = {
+            article: data
+        };
+    console.log(hbsObject);
+        res.render("home", hbsObject);
+    });
+});
+
+app.get("/saved", function(req, res){
+    Article.find({"saved": true}).populate("notes").exec(function(error, articles){
+        var hbsObject = {
+            article: articles
+        };
+        res.render("saved", hbsObject);
+    });
 });
 
 // A GET request to scrape the echojs website
