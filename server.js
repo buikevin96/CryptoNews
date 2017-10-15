@@ -55,9 +55,10 @@ db.once("open", function(){
 // =======
 
 // GET requests to render Handlebars pages
-app.get("/", function(req, res){
+app.get("/home", function(req, res){
     Article.find({"saved": false}, function(error, data) {
         var hbsObject = {
+            //key : value 
             article: data
         };
     console.log(hbsObject);
