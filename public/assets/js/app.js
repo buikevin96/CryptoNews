@@ -13,10 +13,10 @@ $.getJSON("/articles", function(data){
 $("#scrape").on("click", function(){
     $.ajax({
         method: "GET",
-        url: "/scrape",
+        url: "/home",
     }).done(function(data){
         console.log(data)
-        window.location = "/" // Redirects to the homepage
+        window.location = "/home" // Redirects to the homepage
     })
 });
 

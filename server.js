@@ -55,6 +55,10 @@ db.once("open", function(){
 // =======
 
 // GET requests to render Handlebars pages
+app.get("", function(req, res){
+    res.redirect('/home');
+});
+
 app.get("/home", function(req, res){
     Article.find({"saved": false}, function(error, data) {
         var hbsObject = {
@@ -63,7 +67,7 @@ app.get("/home", function(req, res){
         };
     console.log(hbsObject);
         res.render("home", hbsObject);
-    });
+    }); 
 });
 
 app.get("/saved", function(req, res){
@@ -176,6 +180,56 @@ app.post("/articles/:id", function(req, res){
     });
 });
 
+app.post("/articles/save/:id", function(req, res){
+    // Use the article id to find and update its saved boolean
+    Article.findOneAndUpdate({"_id": req.params.id}, {"saved": true})
+    // Execute the above query
+    .exec(function(err, doc){
+        // Log any errors
+        if (err) {
+            console.log(err);
+        } else {
+        // Or send the document to the browser
+            res.send(doc);
+        }
+    });
+});
+
+// Create a new note
+app.post("/notes/save/:id", function(req, res){
+    // Create a new note and pass the req.body to the entry
+    var newNote = new Note({
+        body: req.body.text,
+        article: req.params.id
+    });
+    console.log(req.body)
+    // And save the new note the db
+    newNote.save(function(error, note) {
+        // Log any errors
+        if (error) {
+            console.log(error);
+        } else {
+            // Use the article id to find and update its notes
+            Article.findOneAndUpdate({"_id": req.params.id}, {$push: {"notes": note} })
+            .exec(function(err){
+                if (err) {
+                    console.log(err);
+                    res.send(err);
+                }
+                else {
+                    res.send(note);
+                }
+            });
+        }
+    });
+});
+
+
 app.listen(3000, function(){
     console.log("App running on port 3000!");
 });
+
+// Fix home route
+// Save articles
+// Fix Scrape Button
+// Add background
