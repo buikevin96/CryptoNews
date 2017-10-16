@@ -150,35 +150,35 @@ app.get("/articles/:id", function(req, res){
     });
 });
 
-// Create a new note or replace an existing note
-app.post("/articles/:id", function(req, res){
-    // Create a new note and pass the req.body to the entry
-    var newNote = new Note(req.body);
+// // Create a new note or replace an existing note
+// app.post("/articles/:id", function(req, res){
+//     // Create a new note and pass the req.body to the entry
+//     var newNote = new Note(req.body);
 
-    // And save the new note the db
-    newNote.save(function(error, doc){
-        // Log any errors
-        if (error) {
-            console.log(error);
-        }
-        // Otherwise
-        else {
-            // Use the article id to find and update its note
-            Article.findOneAndUpdate({"_id": req.params.id},{"note": doc._id})
-            // Execute the above query
-            .exec(function(err, doc){
-                // Log any errors
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    // Or send the document to the browser
-                    res.send(doc);
-                }
-            });
-        }
-    });
-});
+//     // And save the new note the db
+//     newNote.save(function(error, doc){
+//         // Log any errors
+//         if (error) {
+//             console.log(error);
+//         }
+//         // Otherwise
+//         else {
+//             // Use the article id to find and update its note
+//             Article.findOneAndUpdate({"_id": req.params.id},{"note": doc._id})
+//             // Execute the above query
+//             .exec(function(err, doc){
+//                 // Log any errors
+//                 if (err) {
+//                     console.log(err);
+//                 }
+//                 else {
+//                     // Or send the document to the browser
+//                     res.send(doc);
+//                 }
+//             });
+//         }
+//     });
+// });
 
 app.post("/articles/save/:id", function(req, res){
     // Use the article id to find and update its saved boolean
@@ -224,6 +224,43 @@ app.post("/notes/save/:id", function(req, res){
     });
 });
 
+// Save an article
+app.post("/articles/delete/:id", function(req, res){
+    // Use the article id to find and update its saved boolean
+    Article.findOneAndUpdate({"_id": req.params.id}, {"saved": false, "notes": []})
+    // Execute the above query
+    .exec(function(err, doc){
+        // Log any errors
+        if (err) {
+            console.log(err);
+        } else {
+            // Or send the document to the browser
+            res.send(doc);
+        }
+    });
+});
+
+// Delete a note
+app.delete("/notes/delete/:note_id/:article_id", function(req, res){
+    // Use the note id to find it and delete it
+    Note.findOneAndRemove({"_id": req.params.note_id}, function(err){
+        // Log any errors
+        if (err) {
+            console.log(err);
+            res.send(err);
+        } else {
+            Article.findOneAndUpdate({"_id": req.params.article_id}, {$pull: {"notes": req.params.note_id}})
+            // Execute the above query
+            .exec(function(err){
+                // Log any errors
+                if (err) {
+                    console.log(err);
+                    res.send(err);
+                }
+            });
+        }
+    });
+});
 
 app.listen(3000, function(){
     console.log("App running on port 3000!");
