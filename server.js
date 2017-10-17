@@ -38,7 +38,7 @@ app.engine("handlebars", exphbs({
 app.set("view engine", "handlebars");
 
 // Database configuration with mongoose
-mongoose.connect("mongodb://localhost/crypto");
+mongoose.connect("mongodb://admin:password@ds121495.mlab.com:21495/heroku_cczc3sbq");
 var db = mongoose.connection;
 
 // Show any mongoose errors 
@@ -55,8 +55,19 @@ db.once("open", function(){
 // =======
 
 // GET requests to render Handlebars pages
-app.get("", function(req, res){
-    res.redirect('/home');
+// app.get("/", function(req, res){
+//     res.redirect('/home');
+// });
+
+app.get("/", function(req, res){
+    Article.find({"saved": false}, function(error, data) {
+        var hbsObject = {
+            //key : value 
+            article: data
+        };
+    console.log(hbsObject);
+        res.render("index", hbsObject);
+    }); 
 });
 
 app.get("/home", function(req, res){
@@ -66,7 +77,7 @@ app.get("/home", function(req, res){
             article: data
         };
     console.log(hbsObject);
-        res.render("home", hbsObject);
+        res.render("index", hbsObject);
     }); 
 });
 
@@ -266,7 +277,9 @@ app.listen(3000, function(){
     console.log("App running on port 3000!");
 });
 
-// Fix home route
+
+// How to connect to Heroku
+
 // Save articles
+// Delete articles from saved
 // Fix Scrape Button
-// Add background
