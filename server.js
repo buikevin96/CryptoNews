@@ -41,6 +41,8 @@ app.set("view engine", "handlebars");
 mongoose.connect("mongodb://admin:password@ds121495.mlab.com:21495/heroku_cczc3sbq");
 var db = mongoose.connection;
 
+// Run this like localhost
+
 // Show any mongoose errors 
 db.on("error", function(error){
     console.log("Mongoose Error: ", error);
@@ -273,7 +275,9 @@ app.delete("/notes/delete/:note_id/:article_id", function(req, res){
     });
 });
 
-app.listen(3000, function(){
+var PORT = process.env.PORT || 3000;
+
+app.listen(PORT, function(){
     console.log("App running on port 3000!");
 });
 
@@ -283,3 +287,12 @@ app.listen(3000, function(){
 // Save articles
 // Delete articles from saved
 // Fix Scrape Button
+
+// Go to Robo , connect mongomlab, seed, //seed
+// Post into Daniel, David 
+
+// Copy tall the credentials
+// Go to heroku, copy mongodb://<dbuser>:<dbpassword>@ds121495.mlab.com:21495/heroku_cczc3sbq
+// Replace  dbuser and password
+// Verify 
+// new article(table), one called article, note
