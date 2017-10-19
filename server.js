@@ -292,7 +292,13 @@ app.listen(PORT, function(){
 // Post into Daniel, David 
 
 // Copy tall the credentials
-// Go to heroku, copy mongodb://<dbuser>:<dbpassword>@ds121495.mlab.com:21495/heroku_cczc3sbq
+// Go to heroku, copy mongodb://admin:password@ds121495.mlab.com:21495/heroku_cczc3sbq
 // Replace  dbuser and password
 // Verify 
 // new article(table), one called article, note
+
+// To push updates
+// heroku restart //If you ever try to load or says application error
+// git add .
+// git commit -am "comment"
+// git push heroku master
