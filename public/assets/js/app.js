@@ -2,10 +2,10 @@
 $("#scrape").on("click", function(){
     $.ajax({
         method: "GET",
-        url: "/home",
+        url: "/scrape",
     }).done(function(data){
         console.log(data)
-        window.location = "/" // Redirects to the homepage
+        window.location = "/home" // Redirects to the homepage
     })
 });
 
