@@ -127,6 +127,7 @@ app.get("/scrape", function(req, res){
     });
     // Tell the browser that we finished scraping the text
     res.send("Scrape Complete");
+    res.redirect('/home');
 });
 
 // This will get the articles we scraped from the mongoDB
@@ -282,20 +283,9 @@ app.listen(PORT, function(){
 });
 
 
-// How to connect to Heroku
 
 // Save articles
 // Delete articles from saved
-// Fix Scrape Button
-
-// Go to Robo , connect mongomlab, seed, //seed
-// Post into Daniel, David 
-
-// Copy tall the credentials
-// Go to heroku, copy mongodb://admin:password@ds121495.mlab.com:21495/heroku_cczc3sbq
-// Replace  dbuser and password
-// Verify 
-// new article(table), one called article, note
 
 // To push updates
 // heroku restart //If you ever try to load or says application error
